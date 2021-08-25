@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+
+	<schema name="mycat1" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn1">
+	</schema>
+	<schema name="mycat2" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn2">
+	</schema>
+
+	<dataNode name="dn1" dataHost="mynode" database="lynnvip" />
+	<dataNode name="dn2" dataHost="mynode" database="test" />
+
+	<dataHost name="mynode" maxCon="1000" minCon="10" balance="1"
+			  writeType="0" dbType="mysql" dbDriver="native" switchType="2"  slaveThreshold="100">
+		<heartbeat>show slave status</heartbeat>
+		<writeHost host="dbsrv" url="192.168.1.31:3306" user="root" password="123456">
+			<readHost host="websrv" url="192.168.1.32:3306" user="root" password="123456">
+			</readHost>
+		</writeHost>
+	</dataHost>
+</mycat:schema>
